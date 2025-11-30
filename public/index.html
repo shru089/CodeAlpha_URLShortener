@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>URL Shortener</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Literata:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2C097F",
+              "background-light": "#f6f6f8",
+              "background-dark": "#151022",
+            },
+            fontFamily: {
+              display: "Literata",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .glass-card {
+        background: rgba(25, 16, 34, 0.4);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(148, 57, 239, 0.2);
+      }
+      .gradient-bg {
+        background-image: radial-gradient(
+            circle at 20% 20%,
+            rgba(148, 57, 239, 0.2) 0%,
+            rgba(16, 18, 26, 0) 25%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(74, 0, 224, 0.15) 0%,
+            rgba(16, 18, 26, 0) 30%
+          );
+      }
+    </style>
+  </head>
+  <body
+    class="font-display bg-background-light dark:bg-background-dark text-gray-300 antialiased"
+  >
+    <div
+      class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4"
+    >
+      <div class="absolute inset-0 z-0 gradient-bg"></div>
+
+      <div class="relative z-10 flex w-full max-w-2xl flex-col items-center">
+        <!-- HEADER -->
+        <header
+          class="flex w-full items-center justify-between whitespace-nowrap px-4 py-6 md:px-0"
+        >
+          <div class="flex items-center gap-3 text-white">
+            <div class="size-6 text-primary">
+              <svg
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.468 3.831a1.5 1.5 0 00-2.936 0L3.844 16.5a1.5 1.5 0 001.468 2.169h13.376a1.5 1.5 0 001.468-2.169L13.468 3.83zM12 15a1 1 0 110-2 1 1 0 010 2zm-1-4a1 1 0 011-1h.008a1 1 0 110 2H12a1 1 0 01-1-1z"
+                ></path>
+              </svg>
+            </div>
+            <h2 class="text-white text-xl font-bold leading-tight">Shortenr</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg px-4 text-sm font-bold leading-normal text-white transition-colors hover:bg-white/10"
+            >
+              <span>Log In</span>
+            </button>
+            <button
+              class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold leading-normal text-white shadow-lg shadow-primary/30 transition-shadow hover:shadow-primary/50"
+            >
+              <span>Sign Up</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- MAIN -->
+        <main class="w-full">
+          <!-- SHORTENER CARD -->
+          <div
+            class="glass-card mt-16 w-full rounded-xl p-6 shadow-2xl shadow-black/20 md:p-10"
+          >
+            <div class="text-center">
+              <h1
+                class="font-display text-4xl font-bold leading-tight tracking-tighter text-white sm:text-5xl"
+              >
+                URL Shortener
+              </h1>
+              <p
+                class="font-display mx-auto mt-4 max-w-md text-base font-normal leading-normal text-gray-400"
+              >
+                Paste a long link and get a short URL instantly. Simple, fast,
+                and elegant.
+              </p>
+            </div>
+
+            <!-- INPUT + BUTTON -->
+            <div
+              class="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+            >
+              <div class="w-full flex-1">
+                <label class="sr-only" for="long-url">Enter long URL</label>
+                <div class="relative">
+                  <span
+                    class="material-symbols-outlined pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                    >link</span
+                  >
+                  <input
+                    class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-primary/20 bg-[#261933]/50 p-4 pl-12 text-base font-normal leading-normal text-white placeholder:text-gray-500 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50"
+                    id="long-url"
+                    placeholder="e.g., https://your-very-long-url-to-shorten.com"
+                    value=""
+                  />
+                </div>
+              </div>
+              <button
+                id="shorten-btn"
+                type="button"
+                class="group relative flex h-14 w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-8 text-base font-bold leading-normal tracking-wide text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/40 sm:w-auto"
+              >
+                <span class="truncate">Shorten URL</span>
+              </button>
+            </div>
+
+            <!-- RESULT -->
+            <div
+              id="result-section"
+              class="mt-8 flex flex-col items-center justify-between gap-4 rounded-lg border border-primary/20 bg-black/20 p-4 sm:flex-row hidden"
+            >
+              <p class="font-display text-base text-gray-300">
+                <span class="font-medium text-white">Your short URL:</span>
+                <a
+                  id="short-url-link"
+                  class="ml-2 font-mono text-primary hover:underline break-all"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                ></a>
+              </p>
+              <button
+                id="copy-btn"
+                type="button"
+                class="flex h-10 w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary/20 px-4 text-sm font-bold text-white transition-colors hover:bg-primary/40 sm:w-auto"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >content_copy</span
+                >
+                <span class="truncate">Copy</span>
+              </button>
+            </div>
+
+            <!-- STATUS MESSAGE -->
+            <p
+              id="status-text"
+              class="mt-3 text-sm text-gray-400 min-h-[1.25rem]"
+            ></p>
+          </div>
+
+          <!-- SIMPLE HISTORY (optional, client-side only) -->
+          <div
+            class="glass-card mt-8 w-full rounded-xl p-6 shadow-2xl shadow-black/20 md:p-8"
+          >
+            <h2 class="text-2xl font-bold text-white">History</h2>
+            <div id="history-list" class="mt-6 flex flex-col gap-4 text-sm">
+              <!-- New entries will be appended here via JS -->
+              <p class="text-gray-500 text-xs">
+                Shortened links this session will appear here.
+              </p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- JS to connect with your backend -->
+    <script>
+      const shortenBtn = document.getElementById("shorten-btn");
+      const longUrlInput = document.getElementById("long-url");
+      const resultSection = document.getElementById("result-section");
+      const shortUrlLink = document.getElementById("short-url-link");
+      const copyBtn = document.getElementById("copy-btn");
+      const statusText = document.getElementById("status-text");
+      const historyList = document.getElementById("history-list");
+
+      function setStatus(message, type = "info") {
+        statusText.textContent = message || "";
+        statusText.classList.remove("text-gray-400", "text-red-400", "text-emerald-400");
+        if (type === "error") statusText.classList.add("text-red-400");
+        else if (type === "success") statusText.classList.add("text-emerald-400");
+        else statusText.classList.add("text-gray-400");
+      }
+
+      function addToHistory(longUrl, shortUrl) {
+        // remove "empty" text if present
+        const firstChild = historyList.firstElementChild;
+        if (firstChild && firstChild.tagName === "P") {
+          historyList.removeChild(firstChild);
+        }
+
+        const wrapper = document.createElement("div");
+        wrapper.className =
+          "flex flex-col items-start gap-3 rounded-lg border border-primary/20 bg-black/20 p-4 md:flex-row md:items-center";
+
+        const textBox = document.createElement("div");
+        textBox.className = "flex-1";
+
+        const longP = document.createElement("p");
+        longP.className = "truncate text-xs text-gray-400";
+        longP.title = longUrl;
+        longP.textContent = longUrl;
+
+        const shortA = document.createElement("a");
+        shortA.href = shortUrl;
+        shortA.target = "_blank";
+        shortA.rel = "noopener noreferrer";
+        shortA.className = "font-mono text-sm font-medium text-primary hover:underline break-all";
+        shortA.textContent = shortUrl;
+
+        textBox.appendChild(longP);
+        textBox.appendChild(shortA);
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          "flex h-10 w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary/20 px-4 text-xs font-bold text-white transition-colors hover:bg-primary/40 md:w-auto";
+        btn.innerHTML =
+          '<span class="material-symbols-outlined text-base">content_copy</span><span class="truncate">Copy</span>';
+
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(shortUrl);
+            setStatus("Copied to clipboard.", "success");
+          } catch {
+            setStatus("Unable to copy.", "error");
+          }
+        });
+
+        wrapper.appendChild(textBox);
+        wrapper.appendChild(btn);
+
+        historyList.prepend(wrapper);
+      }
+
+      shortenBtn.addEventListener("click", async () => {
+        const longUrl = longUrlInput.value.trim();
+        if (!longUrl) {
+          setStatus("Please enter a URL first.", "error");
+          return;
+        }
+
+        setStatus("Creating short URL…");
+        shortenBtn.disabled = true;
+
+        try {
+          const res = await fetch("/shorten", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ longUrl }),
+          });
+
+          if (!res.ok) {
+            throw new Error("Request failed with status " + res.status);
+          }
+
+          const data = await res.json();
+          const shortUrl = data.shortUrl;
+
+          shortUrlLink.href = shortUrl;
+          shortUrlLink.textContent = shortUrl;
+          resultSection.classList.remove("hidden");
+
+          addToHistory(longUrl, shortUrl);
+          setStatus("Short URL generated successfully.", "success");
+        } catch (err) {
+          console.error(err);
+          setStatus("Something went wrong. Please try again.", "error");
+        } finally {
+          shortenBtn.disabled = false;
+        }
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        const text = shortUrlLink.textContent;
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+          setStatus("Copied to clipboard.", "success");
+        } catch {
+          setStatus("Unable to copy.", "error");
+        }
+      });
+    </script>
+  </body>
+</html>
+
