@@ -35,3 +35,71 @@ Live Demo (optional after deployment):
 
 ## 📁 Folder Structure
 
+CodeAlpha_URLShortener/
+│── models/
+│ └── Url.js
+│── public/
+│ └── index.html
+│── server.js
+│── package.json
+│── .env
+│── README.md
+
+
+---
+
+## 🧩 API Endpoints
+
+### 👉 **POST /shorten**
+Create a short URL.
+
+**Request Body (JSON):**
+```json
+{
+  "longUrl": "https://example.com/very/long/url"
+}
+
+
+Response:
+
+{
+  "shortUrl": "http://localhost:5000/abc123",
+  "longUrl": "https://example.com/very/long/url"
+}
+
+👉 GET /:shortCode
+
+Redirect to the original long URL.
+
+Example:
+
+GET /abc123
+
+
+Redirects to:
+
+https://example.com/very/long/url
+
+🛠 Installation & Setup (Local)
+1. Clone the repo
+git clone https://github.com/YOUR-USERNAME/CodeAlpha_URLShortener.git
+cd CodeAlpha_URLShortener
+
+2. Install dependencies
+npm install
+
+3. Create .env file
+MONGO_URI=your-mongodb-atlas-uri
+BASE_URL=http://localhost:5000
+PORT=5000
+
+4. Start the server
+npm start
+
+
+Server runs at:
+
+http://localhost:5000
+
+
+Frontend is served automatically from /public.
