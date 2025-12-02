@@ -1,105 +1,89 @@
-# 🚀 CodeAlpha URL Shortener  
-A modern, full-stack URL Shortener built as part of the **CodeAlpha Backend Development Internship**.  
-Built with **Node.js**, **Express**, **MongoDB Atlas**, and a beautiful **Stitch-designed frontend**.
+# 🔗 CodeAlpha URL Shortener
 
-Live Demo (optional after deployment):  
-👉 *Coming Soon…*
+A modern URL Shortener built for the **CodeAlpha Backend Development Internship**.  
+Backend with **Node.js, Express, MongoDB Atlas (Mongoose)** and a sleek **dark UI frontend** generated using Google Stitch.
 
 ---
 
 ## 🌟 Features
 
-### ✅ Core Backend Features
-- Generate short URLs from long links  
-- Redirect to original URLs instantly  
-- MongoDB Atlas for cloud storage  
-- Auto-generated unique short codes  
-- Full REST API support  
-
-### 🎨 Frontend Features
-- Glassmorphism UI designed with Google Stitch  
-- Clean dark theme with neon accents  
-- Real-time short URL generation  
-- Copy-to-clipboard functionality  
-- History of shortened URLs (session-based)  
-
-### ⚙ Tech Stack
-- **Node.js + Express** (Backend)
-- **MongoDB Atlas** (Database)
-- **Mongoose** (ODM)
-- **TailwindCSS** (Frontend styling)
-- **Stitch (Google)** for UI generation
-- **Thunder Client/Postman** for testing
+- Shorten any long URL into a compact short link
+- Auto-generated unique short codes using `nanoid`
+- MongoDB Atlas to store URL mappings and click counts
+- Redirect from short URL → original URL
+- Beautiful single-page frontend:
+  - Paste long URL, click **Shorten URL**
+  - Displays short link with click-to-copy
+  - Session-based history of generated links
 
 ---
 
-## 📁 Folder Structure
+## 🛠 Tech Stack
 
+- **Backend:** Node.js, Express
+- **Database:** MongoDB Atlas, Mongoose
+- **Frontend:** HTML, Tailwind CSS (via CDN), vanilla JS
+- **Tools:** dotenv, nanoid, Thunder Client / Postman
+
+---
+
+## 📁 Project Structure
+
+```bash
 CodeAlpha_URLShortener/
 │── models/
-│ └── Url.js
+│   └── Url.js
 │── public/
-│ └── index.html
+│   └── index.html
 │── server.js
 │── package.json
-│── .env
+│── .gitignore
 │── README.md
 
+- models/Url.js – Mongoose schema for URLs
 
----
+- public/index.html – Frontend UI
 
-## 🧩 API Endpoints
+- server.js – Express server + API routes
 
-### 👉 **POST /shorten**
-Create a short URL.
+- .gitignore includes .env and node_modules.
 
-**Request Body (JSON):**
-```json
-{
-  "longUrl": "https://example.com/very/long/url"
-}
+🚀 Running the Project Locally
 
+Clone the repository:
 
-Response:
-
-{
-  "shortUrl": "http://localhost:5000/abc123",
-  "longUrl": "https://example.com/very/long/url"
-}
-
-👉 GET /:shortCode
-
-Redirect to the original long URL.
-
-Example:
-
-GET /abc123
-
-
-Redirects to:
-
-https://example.com/very/long/url
-
-🛠 Installation & Setup (Local)
-1. Clone the repo
-git clone https://github.com/YOUR-USERNAME/CodeAlpha_URLShortener.git
+git clone https://github.com/YOUR_USERNAME/CodeAlpha_URLShortener.git
 cd CodeAlpha_URLShortener
 
-2. Install dependencies
+
+Install dependencies:
+
 npm install
 
-3. Create .env file
-MONGO_URI=your-mongodb-atlas-uri
-BASE_URL=http://localhost:5000
-PORT=5000
 
-4. Start the server
+Create .env with your MONGO_URI and other variables.
+
+Start the server:
+
 npm start
 
 
-Server runs at:
+Open the app in your browser:
 
-http://localhost:5000
+http://localhost:5000/
 
 
-Frontend is served automatically from /public.
+You should see the URL Shortener UI. Paste a long URL, click Shorten URL, and test the generated short link.
+
+
+- This project satisfies Task 1: Simple URL Shortener requirements:
+
+- Backend server with Express
+
+- API to create short URLs
+
+- Database mapping short → long URLs
+
+- Redirect route
+
+- Optional frontend implemented
