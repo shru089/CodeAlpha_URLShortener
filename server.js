@@ -6,28 +6,41 @@ const { nanoid } = require("nanoid");
 const dotenv = require("dotenv");
 const Url = require("./models/Url");
 
+// Load environment variables
 dotenv.config();
 
 const app = express();
 
 // Middlewares
 app.use(cors());
-app.use(express.json()); // to read JSON body
+app.use(express.json());
 
-// serve static frontend
+// Serve static frontend folder
 app.use(express.static("public"));
+
+// Dynamic PORT (Render or local)
+const PORT = process.env.PORT || 5000;
+
+// Auto-detect BASE_URL
+const getBaseUrl = () => {
+  if (process.env.BASE_URL && process.env.BASE_URL.trim() !== "") {
+    return process.env.BASE_URL;
+  }
+  return `http://localhost:${PORT}`;
+};
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Health check route (optional)
+// Health check route
 app.get("/", (req, res) => {
   res.json({ message: "URL Shortener API is running 🚀" });
 });
 
-// POST /shorten -> create a short URL
+// POST /shorten -> create short URL
 app.post("/shorten", async (req, res) => {
   try {
     const { longUrl } = req.body;
@@ -36,18 +49,19 @@ app.post("/shorten", async (req, res) => {
       return res.status(400).json({ message: "longUrl is required" });
     }
 
-    // You can add validation here: check if it's a valid URL
+    const baseUrl = getBaseUrl();
 
-    // Check if it already exists
+    // Check if URL already exists
     let existing = await Url.findOne({ longUrl });
     if (existing) {
       return res.json({
-        shortUrl: `${process.env.BASE_URL}/${existing.shortCode}`,
+        shortUrl: `${baseUrl}/${existing.shortCode}`,
         longUrl: existing.longUrl,
       });
     }
 
-    const shortCode = nanoid(7); // 7-char code, like aB3kL9Q
+    // Generate new short code
+    const shortCode = nanoid(7);
 
     const newUrl = await Url.create({
       longUrl,
@@ -55,7 +69,7 @@ app.post("/shorten", async (req, res) => {
     });
 
     return res.status(201).json({
-      shortUrl: `${process.env.BASE_URL}/${newUrl.shortCode}`,
+      shortUrl: `${baseUrl}/${newUrl.shortCode}`,
       longUrl: newUrl.longUrl,
     });
   } catch (error) {
@@ -64,7 +78,7 @@ app.post("/shorten", async (req, res) => {
   }
 });
 
-// GET /:code -> redirect to original URL
+// GET /:code -> redirect to the original URL
 app.get("/:code", async (req, res) => {
   try {
     const { code } = req.params;
@@ -74,7 +88,6 @@ app.get("/:code", async (req, res) => {
       return res.status(404).json({ message: "Short URL not found" });
     }
 
-    // increment click count
     urlDoc.clickCount += 1;
     await urlDoc.save();
 
@@ -85,7 +98,7 @@ app.get("/:code", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
 });
